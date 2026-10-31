@@ -4,8 +4,6 @@ FastMCP server for mevzuat.gov.tr (direct API).
 Supports searching and PDF content extraction for Kanun (laws).
 """
 import logging
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
 from pydantic import Field
 from typing import Optional
 

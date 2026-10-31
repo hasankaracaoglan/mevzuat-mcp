@@ -6,8 +6,6 @@ This client handles search via DataTables API and content via PDF downloads.
 
 import httpx
 import logging
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
 import io
 import time
 import os
@@ -112,8 +110,7 @@ class MevzuatApiClientNew:
         self._http_client = httpx.AsyncClient(
             headers=self.HEADERS,
             timeout=timeout,
-            follow_redirects=True,
-            verify=False
+            follow_redirects=True
         )
         self._md_converter = MarkItDown()
         self._cache = MarkdownCache(default_ttl=cache_ttl) if enable_cache else None
@@ -678,8 +675,7 @@ class MevzuatApiClientNew:
                     headers=self.HEADERS,
                     cookies=self._cookies,
                     timeout=self._http_client.timeout,
-                    follow_redirects=True,
-                    verify=False
+                    follow_redirects=True
                 ) as temp_client:
                     response = await temp_client.get(pdf_url)
             else:
