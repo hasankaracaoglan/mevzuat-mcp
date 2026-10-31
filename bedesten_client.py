@@ -97,6 +97,7 @@ class BedestenClient:
             base_url=BASE_URL,
             headers=HEADERS,
             timeout=30.0,
+            verify=False,
         )
 
     async def close(self):
