@@ -9,7 +9,13 @@
 > - SSL sertifika doğrulaması yeniden açıldı.
 > - `search_mevzuat` sayfa boyutu Bedesten sınırına (20) indirildi; varsayılan ayarla her arama hata veriyordu.
 >
-> **Kurulum (bu fork):**
+> **Kurulum (bu fork):** [uv](https://docs.astral.sh/uv/) kuruluysa MCP istemcisi sunucuyu doğrudan GitHub'dan çalıştırabilir
+> (Claude Desktop'ta `claude_desktop_config.json`):
+> ```json
+> {"mcpServers": {"mevzuat-mcp": {"command": "uvx", "args": ["--from", "git+https://github.com/hasankaracaoglan/mevzuat-mcp", "mevzuat-mcp"]}}}
+> ```
+> Claude Desktop `uvx`'i bulamazsa `command` alanına tam yolunu yazın (Terminal'de `which uvx`, çoğunlukla `/Users/<kullanıcı>/.local/bin/uvx`).
+> Kaynaktan kurmak için:
 > ```bash
 > git clone https://github.com/hasankaracaoglan/mevzuat-mcp.git
 > cd mevzuat-mcp && python3 -m venv .venv && .venv/bin/pip install -e .
