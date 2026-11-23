@@ -1,3 +1,23 @@
+> ## Bu depo hakkında
+>
+> Bu depo, Said Sürücü'nün `saidsurucu/mevzuat-mcp` projesinin **bağımsız bir fork'udur** (MIT). Asıl depo
+> 2026 sonbaharında kaldırıldı (artık açılmıyor). Bu depo, asıl projenin son açık sürümünü (`upstream-son` etiketi) korur
+> ve üzerine `yerel` dalındaki küçük düzeltmeleri ekler. Asıl yazarla bir bağlantısı yoktur. Aşağıdaki
+> özgün README'de geçen uzak sunucu adresleri ve PyPI paketi asıl projeye aittir.
+>
+> **Bu fork'taki değişiklikler:**
+> - SSL sertifika doğrulaması yeniden açıldı.
+> - `search_mevzuat` sayfa boyutu Bedesten sınırına (20) indirildi; varsayılan ayarla her arama hata veriyordu.
+>
+> **Kurulum (bu fork):**
+> ```bash
+> git clone https://github.com/hasankaracaoglan/mevzuat-mcp.git
+> cd mevzuat-mcp && python3 -m venv .venv && .venv/bin/pip install -e .
+> ```
+> MCP istemcisinde komut: `/tam/yol/mevzuat-mcp/.venv/bin/mevzuat-mcp`.
+
+---
+
 # Mevzuat MCP: Adalet Bakanlığı Mevzuat Bilgi Sistemi için MCP Sunucusu
 
 Bu proje, Adalet Bakanlığı'na ait Mevzuat Bilgi Sistemi'ne (`mevzuat.gov.tr`) erişimi kolaylaştıran bir [FastMCP](https://gofastmcp.com/) sunucusu oluşturur. Bu sayede, Mevzuat Bilgi Sistemi'nden mevzuat arama ve tüm mevzuat içeriklerini Markdown formatında alma işlemleri, Model Context Protocol (MCP) destekleyen LLM (Büyük Dil Modeli) uygulamaları (örneğin Claude Desktop veya [5ire](https://5ire.app)) ve diğer istemciler tarafından araç (tool) olarak kullanılabilir hale gelir.
