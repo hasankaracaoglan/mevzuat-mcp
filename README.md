@@ -15,47 +15,58 @@
 > verip “bunu kur” demeniz yeterlidir. Asistan aşağıdaki adımları izler; komut çalıştırmadan önce izin ister.
 >
 > **Asistan için adımlar:**
-> 
+>
 > Bu sunucuyu dilekçe becerileriyle birlikte kuruyorsan [AvukatLab paketinin kurulum talimatını](https://github.com/hasankaracaoglan/avukatlab-yapay-zeka/blob/main/KURULUM.md) izle; üç sunucuyu ve becerileri birlikte kurar.
-> 
+>
 > README'nin aşağısındaki özgün projeye ait kurulum bölümlerini (Antigravity betikleri, uzak sunucu adresleri, PyPI'den `uvx mevzuat-mcp`, `saidsurucu/...` depoları) **uygulama**; bu fork için yalnızca buradaki adımlar geçerlidir.
 >
-> 1. Önce `uvx` zaten var mı bak: `command -v uvx` boş dönerse `~/.local/bin/uvx`, `/opt/homebrew/bin/uvx` ve
->    `/usr/local/bin/uvx` yollarını da dene. Yalnızca hiçbirinde yoksa `uv`'yi kur. macOS/Linux:
->    `curl -LsSf https://astral.sh/uv/install.sh | sh`. Windows:
->    `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`. Masaüstü uygulamaları
->    `~/.local/bin`'i PATH'te görmediği için ayarlarda daima bu tam yolu kullan.
-> 2. Sunucuyu kullanıcının kullandığı asistana ekle. Çalıştırılacak komut:
->    `<uvx tam yolu> --from git+https://github.com/hasankaracaoglan/mevzuat-mcp mevzuat-mcp`
->    - **Claude Code:** `claude mcp add mevzuat-mcp -s user -- <uvx tam yolu> --from git+https://github.com/hasankaracaoglan/mevzuat-mcp mevzuat-mcp`
+> Sunucu bilgisayara kalıcı olarak kurulur; açılırken internete, GitHub'a ya da git'e ihtiyaç duymaz.
+>
+> 1. `uv`'nin tam yolunu bul: `command -v uv` boş dönerse `~/.local/bin/uv`, `/opt/homebrew/bin/uv` ve `/usr/local/bin/uv`
+>    yollarını da dene. Yalnızca hiçbirinde yoksa kur. macOS/Linux: `curl -LsSf https://astral.sh/uv/install.sh | sh`.
+>    Windows: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`.
+> 2. Sunucuyu kur (zaman aşımı en az 10 dakika olsun; "operation timed out" ile yarıda kalırsa bir kez daha çalıştır):
+>    `UV_HTTP_TIMEOUT=180 <uv> tool install https://github.com/hasankaracaoglan/mevzuat-mcp/archive/refs/heads/yerel.zip`
+> 3. Komutun tam yolu `<uv> tool dir --bin` klasöründeki `mevzuat-mcp` dosyasıdır (çoğunlukla `~/.local/bin/mevzuat-mcp`; ayarlara
+>    açık yolu yaz). Masaüstü uygulamaları `~/.local/bin`'i PATH'te görmez. Bu yolu kullanıcının asistanına ekle:
+>    - **Claude Code:** `claude mcp add mevzuat-mcp -s user -- <tam yol>`
 >    - **Claude Desktop:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 >      (Windows: `%APPDATA%\Claude\claude_desktop_config.json`). Dosya yoksa oluştur.
->    - **Antigravity:** `~/.gemini/config/mcp_config.json` ya da `~/.gemini/antigravity/mcp_config.json`
->      (hangisi varsa).
->    - JSON dosyalarında önce dosyanın yedeğini al, sonra `mcpServers` nesnesine şu girdiyi ekle; var olan
->      sunuculara dokunma ve dosyanın geçerli JSON kaldığını doğrula. Aynı adla eski bir girdi varsa (ör. eskiden
->      kurulmuş `uvx mevzuat-mcp`) kullanıcıya göster, yedekle ve değiştirmek için izin al:
->      `"mevzuat-mcp": {"command": "<uvx tam yolu>", "args": ["--from", "git+https://github.com/hasankaracaoglan/mevzuat-mcp", "mevzuat-mcp"]}`
-> 3. Ortamı önceden kurup denemek için şunu çalıştır; bağımlılıkları indirir (boş bilgisayarda 2-3 dakika, komutun
->    zaman aşımı en az 5 dakika olsun) ve
->    `ok` yazıp çıkar. Sunucunun kendisini terminalde çalıştırma, girdi bekleyip açık kalır:
->    `<uvx tam yolu> --from git+https://github.com/hasankaracaoglan/mevzuat-mcp python -c "print('ok')"`
-> 4. Kullanıcıya asistan uygulamasını tamamen kapatıp yeniden açmasını söyle.
+>    - **Antigravity:** `~/.gemini/config/mcp_config.json` (yeni sürüm) ya da `~/.gemini/antigravity/mcp_config.json`.
+>    - JSON dosyalarında önce yedek al, sonra `mcpServers` nesnesine `"mevzuat-mcp": {"command": "<tam yol>", "args": []}`
+>      girdisini ekle. Var olan diğer sunuculara ve anahtarlara dokunma, dosyanın geçerli JSON kaldığını doğrula.
+>      Aynı adla eski bir girdi varsa (ör. eskiden kurulmuş `uvx mevzuat-mcp`) kullanıcıya göster, yedekle ve değiştirmek
+>      için izin al. Sunucunun kendisini terminalde çalıştırma; girdi bekleyip açık kalır.
+> 4. mevzuat.gov.tr araçları Chromium ister (yaklaşık 480 MB, 3 dakika); Bedesten araçları istemez. Kullanıcı isterse:
+>    `"$(<uv> tool dir)/mevzuat-mcp/bin/python" -m playwright install chromium`. İndirilmezse o araçlar ilk kullanımda kendisi indirir.
+> 5. Kullanıcıya asistan uygulamasını tamamen kapatıp yeniden açmasını söyle.
 >
-> Sunucu her açılışta GitHub'daki son sürümü kullanır; güncelleme için ayrıca bir şey yapmak gerekmez.
+> Güncelleme kendiliğinden olmaz. Güncellemek için: `UV_HTTP_TIMEOUT=180 <uv> tool install --reinstall --refresh https://github.com/hasankaracaoglan/mevzuat-mcp/archive/refs/heads/yerel.zip`,
+> ardından asistan uygulamasını yeniden başlat. Kaldırmak için: `<uv> tool uninstall mevzuat-mcp` ve ayardaki girdiyi sil.
 >
-> **Elle kurulum (bu fork):** [uv](https://docs.astral.sh/uv/) kuruluysa MCP istemcisi sunucuyu doğrudan GitHub'dan çalıştırabilir
-> (Claude Desktop'ta `claude_desktop_config.json`):
-> ```json
-> {"mcpServers": {"mevzuat-mcp": {"command": "uvx", "args": ["--from", "git+https://github.com/hasankaracaoglan/mevzuat-mcp", "mevzuat-mcp"]}}}
+>
+> **Elle kurulum (bu fork):** Önce [uv](https://docs.astral.sh/uv/)'yi kurun (Terminal'de `curl -LsSf https://astral.sh/uv/install.sh | sh`), sonra sunucuyu kalıcı olarak kurun:
+>
+> ```bash
+> ~/.local/bin/uv tool install https://github.com/hasankaracaoglan/mevzuat-mcp/archive/refs/heads/yerel.zip
 > ```
-> Claude Desktop `uvx`'i bulamazsa `command` alanına tam yolunu yazın (Terminal'de `which uvx`, çoğunlukla `/Users/<kullanıcı>/.local/bin/uvx`).
-> Kaynaktan kurmak için:
+>
+> MCP istemcisinde komut olarak kurulan dosyanın tam yolunu yazın (Terminal'de `echo $HOME` ile kendi yolunuzu öğrenin), örneğin Claude Desktop'ta `claude_desktop_config.json`:
+>
+> ```json
+> {"mcpServers": {"mevzuat-mcp": {"command": "/Users/KULLANICI/.local/bin/mevzuat-mcp", "args": []}}}
+> ```
+>
+> Güncellemek için `~/.local/bin/uv tool install --reinstall --refresh https://github.com/hasankaracaoglan/mevzuat-mcp/archive/refs/heads/yerel.zip` çalıştırıp istemciyi yeniden başlatın.
+>
+> Kaynaktan geliştirmek için:
+>
 > ```bash
 > git clone https://github.com/hasankaracaoglan/mevzuat-mcp.git
 > cd mevzuat-mcp && python3 -m venv .venv && .venv/bin/pip install -e .
 > ```
-> MCP istemcisinde komut: `/tam/yol/mevzuat-mcp/.venv/bin/mevzuat-mcp`.
+>
+> Bu durumda komut `/tam/yol/mevzuat-mcp/.venv/bin/mevzuat-mcp` olur.
 
 ---
 
